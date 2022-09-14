@@ -20,25 +20,25 @@ As a first step, create a new blank project in Vivado, specifying the FPGA part/
 
 The first module to be created is a binary counter, which is used in both HSYNC and VSYNC circuit. From the source files downloaded from github, import the Verilog file "counter.v" as a 'design source file' into the Vivado project. As you can see below, there is not much to it. But one Verilog feature I wanted to try was "parameterized ports", which basically allows you to specify the bit width of a port at instantiation time. This will be put to use on the hsync and vsync circuits, which both have a counter, but with a different bit count.
 
-![Counter Circuit]()
+![Counter Circuit](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/counter_code.png?raw=true)
 
 Part of the FPGA workflow is for the tool chain to translate the Verilog code into a Register Transfer Level (RTL) design. Not sure where the name came from, but basically the tool chain creates a circuit with basic building blocks (e.g. flip-flops, gates, etc...) that will then be synthesized for hardware implementation. To view the RTL design, click on the "Open Elaborated Design" link in Vivado's workflow window. This is what it should look like:
 
-![Counter Elaborated Design]()
+![Counter Elaborated Design](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/counter_elaborated_design.png?raw=true)
 
 Fascinating to see how simple the view is. Basic state machine... a D flip-flop, and an adder to add 1 on each clock cycle.
 
 Another major step that I found invaluable is the simulation of the circuit. Coming from the software side, this is the FPGA version of a unit and integration test framework. I have created a simple 'test bench' for each module. To simulate this circuit, import the file 'tb_counter' as a 'simulation source' in Vivado.  As you can see below, a clock with a period of 10 ns (10 Mhz frequency) is setup, and then stimulus is applied at different timings.
 
-![Counter Testbench Code]()
+![Counter Testbench Code](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/counter_testbench_code.png?raw=true)
 
 Then initiate the simulation by clicking on the "Run Simulation" link in Vivado's. This will initiate the simulation and a new waveform tab will appear on the right, as shown below. 
 
-![Counter Simulation Waveform]()
+![Counter Simulation Waveform](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/counter_waveform_docked.png?raw=true)
 
 The view can be quite condensed given how busy the screen gets in the IDE. There is a button on the top right of the pane that allows you to undock the waveform window, and then you can use the zoom buttons in that window to get to the desired granularity. As you can see below, the simulation waveform looks pretty much exactly as you would see it on a logic analyzer. The waveform will also display
 
-![Counter Simulation Waveform Expanded]()
+![Counter Simulation Waveform Expanded](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/counter_waveform_expanded.png?raw=true)
 
 ## Building the HSYNC Circuit
 
