@@ -1,5 +1,7 @@
 # Building Ben Eater's VGA Breadboard Video Card on FPGA
 
+![Main project image](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/vga_project.jpg?raw=true)
+
 This project is an adaptation of Ben Eater's [VGA video card](https://eater.net/vga) circuit to an FPGA board. I strongly suggest that you watch the video tutorials first and study the circuit before undertaking this project, as the steps described in this article will not make sense without that context.
 
 ## Things You'll Need
@@ -26,7 +28,7 @@ Part of the FPGA workflow is for the tool chain to translate the Verilog code in
 
 ![Counter Elaborated Design](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/counter_elaborated_design.png?raw=true)
 
-Fascinating to see how simple the view is. Basic state machine... a D flip-flop, and an adder to add 1 on each clock cycle.
+I found this view fascinating. The tool chain interpreted the code as a basic state machine... a D flip-flop, and an adder to add 1 on each clock cycle.
 
 Another major step that I found invaluable is the simulation of the circuit. Coming from the software side, this is the FPGA version of a unit and integration test framework. I have created a simple 'test bench' for each module. To simulate this circuit, import the file 'tb_counter' as a 'simulation source' in Vivado.  As you can see below, a clock with a period of 10 ns (10 Mhz frequency) is setup, and then stimulus is applied at different timings.
 
@@ -36,7 +38,7 @@ Then initiate the simulation by clicking on the "Run Simulation" link in Vivado'
 
 ![Counter Simulation Waveform](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/counter_waveform_docked.png?raw=true)
 
-The view can be quite condensed given how busy the screen gets in the IDE. There is a button on the top right of the pane that allows you to undock the waveform window, and then you can use the zoom buttons in that window to get to the desired granularity. As you can see below, the simulation waveform looks pretty much exactly as you would see it on a logic analyzer. The waveform will also display
+The view can be quite condensed given how busy the screen gets in the IDE. There is a button on the top right of the pane that allows you to undock the waveform window, and then you can use the zoom buttons in that window to get to the desired granularity. As you can see below, the simulation waveform looks pretty much exactly as you would see it on a logic analyzer. For bus-oriented (multiple bit) signals, like the output Q, Vivado will display the numerical value of the bit sequence at the top of the bit sequence, which is really convenient.
 
 ![Counter Simulation Waveform Expanded](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/counter_waveform_expanded.png?raw=true)
 
