@@ -56,9 +56,31 @@ To view the elaborated design for the flip_flop, you need to tell Vivado that th
 
 I also created a test bench for the flip flop if you are interested. Import the file 'tb_flip_flop.v' as a simulation source, and designate it as 'top module' the same way you did in the previous step. Then click on 'Run Simulation > Run Behavioral Simulation' in the Flow Navigator pane.
 
-## Building the HSYNC Circuit
+## Building the HSYNC and VSYNC Circuits
 
-## Building the VSYNC Circuit
+The hsync module is the first to compose previously defined modules into a larger circuit. Import the file 'hsync.v' into Vivado as a design source, and set it as 'top module', as explained earlier, to make it the root entity. As you can see in the code below, the module basically follows Ben's design.
+
+![HSync Module](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/hsync_code.png?raw=true)
+
+A key discovery I made while coding this is that Verilog provides a very convenient way of decoding binary values. It comes in the form of a ternary condition expression. For instance, decoding the value of 200 from the 10-bit q signal is done with this statement:
+
+```verilog:
+assign h200_out = (q_out == 200) ? 1 : 0;
+```
+
+Opening up the elaborated design for the hsync module also brought a big surprise. I was expecting to see a bunch of AND gates to decode the various binary values needed for the intervals, but no, as you can see below the tool chain implemented that with mini-ROM modules!! I guess that makes sense given that I read that lookup tables were basic building blocks in FPGA to implement combinational logic.
+
+![HSync Module Elaborated Design](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/hsync_elaborated_design.png?raw=true)
+
+The simulation of the hsync module was a critical phase of the project as I wanted to measure timings for the hsync pulse (3.2 uS) as well as the overall horizontal blanking interval (6.2uS) and the whole line (26.4 uS). Running this simulation requires a change to simulation settings in Vivado, which by default limits the simulation to 1 uS. To do so, right-click on the 'Simulation' header in the Flow Navigator pane and select 'Simulation Settings...'. On the tab 'simulation', set the simulation time to 100 uS, as shown below.
+
+![Simulation Settings](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/sim_settings.png?raw=true)
+
+If you import the testbench, tb_hsync, and run the simulation after making it the top module, you will see that the requirement was met. There is a handy marker feature in the simulation window that facilitates such measurements.
+
+![HSync Simulation](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/hsync_simulation.png?raw=true)
+
+The VSYNC circuit is virtually identical to the one defined for HSYNC, with the exception that the values decoded for the purpose of the vsync pulse and vertical blanking intervals are different. Import the file 'vsync.h' as a design source at your convenience. A testbench is also provided, tb_vsync.h. If you intend to run the test bench, you will need to increase the simulation time limit once more. A limit of 40 ms would provide enough simulation time for 2 complete video frames.
 
 ## Creating a ROM Pre-Loaded with the Finch Image
 
