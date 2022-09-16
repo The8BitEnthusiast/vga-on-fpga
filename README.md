@@ -12,7 +12,7 @@ The project shown in the introduction made use of the following hardware, which 
 - [Mercury 2 FPGA Development Board](https://www.micro-nova.com/mercury-2), from Micro Nova
 - [VGA Connector](https://digilent.com/shop/pmod-vga-video-graphics-array/), from Digilent
 
-I found Digilent's VGA connector particular convenient as it already embeds the kind of resistor network that Ben used on his circuit to generate the color signals, and also a pair of '245 transceivers to buffer the FPGA output pins. The caveat is that whereas Ben used 2 bits for each color, this adapter expects 4 bits per color. As such, for the purpose of this project, I created a makeshift 'upscaler' module, which you will see in the instructions. If you stick to the regular VGA breakout module as shown in Ben's video (and web site), then you don't need that 'upscaler', but you may need to implement your own resistor ladder and buffering.
+I found Digilent's VGA connector particularly convenient as it already embeds the kind of resistor network that Ben used on his circuit to generate the color signals, and also a pair of '245 transceivers to buffer the FPGA output pins. The caveat is that whereas Ben used 2 bits for each color, this adapter expects 4 bits per color. As such, for the purpose of this project, I created a makeshift 'upscaler' module, which you will see in the instructions. If you stick to the regular VGA breakout module as shown in Ben's video (and web site), then you don't need that 'upscaler', but you may need to implement your own resistor ladder and buffering.
 
 ## Before You Begin
 The instructions that follow do not go over the basic installation and use of the Vivado IDE. It is assumed that you have already done at least a basic tutorial (e.g. LED blink). To undertake this project, you should know how to create a blank project, create a source file, and deploy a basic circuit on the development board you have purchased.
@@ -38,9 +38,23 @@ Then initiate the simulation by clicking on the "Run Simulation" link in Vivado'
 
 ![Counter Simulation Waveform](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/counter_waveform_docked.png?raw=true)
 
-The view can be quite condensed given how busy the screen gets in the IDE. There is a button on the top right of the pane that allows you to undock the waveform window, and then you can use the zoom buttons in that window to get to the desired granularity. As you can see below, the simulation waveform looks pretty much exactly as you would see it on a logic analyzer. For bus-oriented (multiple bit) signals, like the output Q, Vivado will display the numerical value of the bit sequence at the top of the bit sequence, which is really convenient.
+The view can be quite condensed given how busy the screen gets in the IDE. There is a button on the top right of the pane that allows you to undock the waveform window, and then you can use the zoom buttons in that window to get to the desired granularity. As you can see below, the simulation waveform looks pretty much exactly as you would see it on a logic analyzer. For bus-oriented (multiple bit) signals, like the output Q, Vivado will display the numerical value of the bit sequence at the top of the sequence, which is really convenient.
 
 ![Counter Simulation Waveform Expanded](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/counter_waveform_expanded.png?raw=true)
+
+## Flip-Flops vs Latches
+
+In order to latch decoded values from the counters, Ben used SR latches to record the proper intervals. My first attempts to code an SR latch in Verilog led to plenty of critical warnings about timings. While I eventually landed on the proper way to do it with the right documentation from Xilinx, I kept reading that FPGAs and latches are not best friends. So I decided to act on recommendations from several sources to use flip-flops, which are more native to FPGA constructs, instead of latches. As such, the next steps consists of creating and testing a reusable D flip-flop module.
+
+In Vivado, import the source file 'flip_flop.v' as a 'design source'. As you can see in the snippet below the code is in many ways similar to the counter module, but with an d input and latching that input on the clock signal instead of incrementing the register. 
+
+![Flip Flop Code](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/flip_flop_code.png?raw=true)
+
+To view the elaborated design for the flip_flop, you need to tell Vivado that the 'top module' is flip_flop.v. As shown below, the top module is highlighted in bold on the sources pane. To designate the flip flop module as the top module, right-click on it and select 'set as top'. Then click on 'Open Elaborated Design'.
+
+![Top Module](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/top_modules.png?raw=true)
+
+I also created a test bench for the flip flop if you are interested. Import the file 'tb_flip_flop.v' as a simulation source, and designate it as 'top module' the same way you did in the previous step. Then click on 'Run Simulation > Run Behavioral Simulation' in the Flow Navigator pane.
 
 ## Building the HSYNC Circuit
 
