@@ -96,19 +96,19 @@ On the wizard, enter "rom_finch" as the component name. You can change that as l
 
 On the "Port A Options" tab, enter "8" as the "Port A Width", and "32768" as "Port A Depth", as shown below. These are the width and depth of the standard EEPROM used on Ben's VGA circuit. You can leave the remaining options as they are.
 
-[ROM Step 3](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/rom_3.png?raw=true)
+![ROM Step 3](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/rom_3.png?raw=true)
 
 On the "Other Options" tab, check the "Load Init File" checkbox, and hit the browse button to locate and select the file "finch.coe" provided in the Data folder of the source files, as shown below. You can leave the remaining options as they are.
 
-[ROM Step 4](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/rom_4.png?raw=true)
+![ROM Step 4](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/rom_4.png?raw=true)
 
 Click on the "Summary Tab" and make sure that the information matches that shown below. You can expand the IP symbol on the left to reveal ports. As you can see, the structure of the ports is very much the same as a 32K EEPROM.
 
-[ROM Step 5](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/rom_5.png?raw=true)
+![ROM Step 5](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/rom_5.png?raw=true)
 
 Click on "OK". On the "Generate Output Products" window, leave all options at their default values and hit the "Generate" button.
 
-[ROM Step 6](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/rom_6.png?raw=true)
+![ROM Step 6](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/rom_6.png?raw=true)
 
 If all goes well, the wizard will generate the component and it will appear in the project sources pane.
 
