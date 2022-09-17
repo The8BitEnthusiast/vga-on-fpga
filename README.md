@@ -114,4 +114,31 @@ If all goes well, the wizard will generate the component and it will appear in t
 
 ## Creating the Clock Module
 
-## Putting it All Together
+Ben used a 10Mhz clock for his circuit. The Mercury 2 board I am using for this has a 50Mhz oscillator on board. It would have been simple to divide that by 5 with a counter and some decoding gates, but I wanted to explore the clock management capabilities of the Xilinx FPGA chip. And sure enough, there was a wizard for that in the IP Catalog.
+
+To access the Clocking Wizard, click on "IP Catalog" in the Flow Navigator pane, and search for "Clocking". Double-click on the "Clocking Wizard" entry.
+
+![Clock Step 1](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/clock_1.png?raw=true)
+
+On the wizard's main sreen, leave the component name as is, or, if you change it, remember to also modify the main vga module accordingly when you get there. In the "Input Clock Information" section at the bottom, change the input port name to "clk_in", and set the input frequency to the clock frequence of your FPGA board. Mine was 50 Mhz. Leave the other options as they are.
+
+![Clock Step 2](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/clock_2.png?raw=true)
+
+Click on the "Output Clocks" tab. Rename the output port name to "clk_out", and set the "Requested" output frequency to "10 Mhz". When you leave the field, the "Actual" section will tell you if the tool was able to design a circuit that meets your request, and if not, it will tell you what frequency it was able to achieve.
+
+![Clock Step 3](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/clock_3.png?raw=true)
+
+That's all there is to it. Before completing this step, it would be a good idea to compare the clock component diagram you see on the left of your screen with the one shown above. If all good, hit the "OK" button, and click on "Generate" to create the clock module. If successful, the clock module will appear in the design source files.
+
+## Scaling Colour Outputs from 2 Bits to 4 Bits
+
+On his circuit, Ben uses 2 bit to represent each colour, and then uses a resistor ladder network to generate the appropriate voltage. The VGA module conveniently provides that, but expects 4 bits for each colour. So I created this simple module that takes 2 bit colour values and translates them into 4 bits by multiplying the value by 5. If you bought a standard VGA breakout board, then you don't need this module and can modify the final VGA main module (covered in the next section) to bypass that scaling process with minor modifications.
+
+![Scaler Code](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/scaler_code.png?raw=true)
+
+Import the file 'scaler_5.v' into the design sources. As you see above, there is not much to it. One thing perhaps worth pointing out is the 'enable' input. For the VGA outputs, it is critical that the colour lines be disabled during the blanking intervals, otherwise I found VGA monitors have a hard time centering the image and even distorts the picture. The ROM module generates an enable pin, but that's just to control whether the data can be read or not. It does not disable the outputs. So I have implemented that on this module. I initially tried high impedance ('Z') as output when enable is low, but the VGA monitor didn't like floating outputs. So this module will ouput logic zero when disabled, which seemd to please the VGA monitor a lot better.
+
+
+## Putting it All Together: The VGA Main Module and Contraint Files
+
+
