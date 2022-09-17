@@ -1,0 +1,210 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title "Ben Eater VGA on FPGA"
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L FPGA:Mercury2DevBoard U1
+U 1 1 634A0FAC
+P 3700 4250
+F 0 "U1" V 3671 2372 50  0000 R CNN
+F 1 "Mercury2DevBoard" V 3580 2372 50  0000 R CNN
+F 2 "" H 3300 5850 50  0001 C CNN
+F 3 "" H 3300 5850 50  0001 C CNN
+	1    3700 4250
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Digilent_PMOD_Modules:Digilent_VGA_PMOD U2
+U 1 1 634A4BC6
+P 8400 2150
+F 0 "U2" H 8400 2948 50  0000 C CNN
+F 1 "Digilent_VGA_PMOD" H 8400 2857 50  0000 C CNN
+F 2 "" H 8400 2900 50  0001 C CNN
+F 3 "" H 8400 2900 50  0001 C CNN
+	1    8400 2150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2500 3550 2500 3000
+Wire Wire Line
+	2500 3000 7950 3000
+Wire Wire Line
+	8850 3000 9250 3000
+Wire Wire Line
+	9250 3000 9250 2150
+Wire Wire Line
+	9250 2150 8850 2150
+$Comp
+L power:GND #PWR03
+U 1 1 634A6944
+P 9050 3400
+F 0 "#PWR03" H 9050 3150 50  0001 C CNN
+F 1 "GND" H 9055 3227 50  0000 C CNN
+F 2 "" H 9050 3400 50  0001 C CNN
+F 3 "" H 9050 3400 50  0001 C CNN
+	1    9050 3400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8850 2050 9050 2050
+Wire Wire Line
+	9050 2050 9050 2900
+Wire Wire Line
+	8850 2900 9050 2900
+Connection ~ 9050 2900
+Wire Wire Line
+	9050 2900 9050 3400
+Wire Wire Line
+	4600 5100 4600 5350
+Wire Wire Line
+	4600 5350 6550 5350
+Wire Wire Line
+	6550 5350 6550 2500
+Wire Wire Line
+	6550 2500 7950 2500
+Wire Wire Line
+	4700 5100 4700 5450
+Wire Wire Line
+	4700 5450 6650 5450
+Wire Wire Line
+	6650 5450 6650 2600
+Wire Wire Line
+	6650 2600 7950 2600
+Wire Wire Line
+	4800 5100 4800 5550
+Wire Wire Line
+	4800 5550 6750 5550
+Wire Wire Line
+	6750 5550 6750 1650
+Wire Wire Line
+	6750 1650 7950 1650
+Wire Wire Line
+	4900 5100 4900 5650
+Wire Wire Line
+	4900 5650 6850 5650
+Wire Wire Line
+	6850 5650 6850 1750
+Wire Wire Line
+	6850 1750 7950 1750
+Wire Wire Line
+	5000 5100 5000 5750
+Wire Wire Line
+	5000 5750 6950 5750
+Wire Wire Line
+	6950 5750 6950 1850
+Wire Wire Line
+	6950 1850 7950 1850
+Wire Wire Line
+	5100 5100 5100 5850
+Wire Wire Line
+	5100 5850 7050 5850
+Wire Wire Line
+	7050 5850 7050 1950
+Wire Wire Line
+	7050 1950 7950 1950
+$Comp
+L power:+5V #PWR02
+U 1 1 634A9AAE
+P 2400 2700
+F 0 "#PWR02" H 2400 2550 50  0001 C CNN
+F 1 "+5V" H 2415 2873 50  0000 C CNN
+F 2 "" H 2400 2700 50  0001 C CNN
+F 3 "" H 2400 2700 50  0001 C CNN
+	1    2400 2700
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2400 3550 2400 2700
+$Comp
+L power:GND #PWR01
+U 1 1 634AA87A
+P 1800 3950
+F 0 "#PWR01" H 1800 3700 50  0001 C CNN
+F 1 "GND" H 1805 3777 50  0000 C CNN
+F 2 "" H 1800 3950 50  0001 C CNN
+F 3 "" H 1800 3950 50  0001 C CNN
+	1    1800 3950
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2600 3550 2600 3400
+Wire Wire Line
+	2600 3400 1800 3400
+Wire Wire Line
+	1800 3400 1800 3950
+Wire Wire Line
+	5200 5100 5200 5950
+Wire Wire Line
+	5200 5950 9500 5950
+Wire Wire Line
+	9500 5950 9500 2500
+Wire Wire Line
+	9500 2500 8850 2500
+Wire Wire Line
+	5300 5100 5300 6050
+Wire Wire Line
+	5300 6050 9600 6050
+Wire Wire Line
+	9600 6050 9600 2600
+Wire Wire Line
+	9600 2600 8850 2600
+Wire Wire Line
+	5400 5100 5400 6150
+Wire Wire Line
+	5400 6150 9700 6150
+Wire Wire Line
+	9700 6150 9700 2700
+Wire Wire Line
+	9700 2700 8850 2700
+Wire Wire Line
+	5500 5100 5500 6250
+Wire Wire Line
+	5500 6250 9800 6250
+Wire Wire Line
+	9800 6250 9800 2800
+Wire Wire Line
+	9800 2800 8850 2800
+Wire Wire Line
+	5500 3550 5500 1200
+Wire Wire Line
+	5500 1200 9500 1200
+Wire Wire Line
+	9500 1200 9500 1650
+Wire Wire Line
+	9500 1650 8850 1650
+Wire Wire Line
+	5400 3550 5400 1100
+Wire Wire Line
+	5400 1100 9600 1100
+Wire Wire Line
+	9600 1100 9600 1750
+Wire Wire Line
+	9600 1750 8850 1750
+Wire Wire Line
+	5300 3550 5300 1000
+Wire Wire Line
+	5300 1000 9700 1000
+Wire Wire Line
+	9700 1000 9700 1850
+Wire Wire Line
+	9700 1850 8850 1850
+Wire Wire Line
+	5200 3550 5200 900 
+Wire Wire Line
+	5200 900  9800 900 
+Wire Wire Line
+	9800 900  9800 1950
+Wire Wire Line
+	9800 1950 8850 1950
+$EndSCHEMATC

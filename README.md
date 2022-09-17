@@ -84,6 +84,34 @@ The VSYNC circuit is virtually identical to the one defined for HSYNC, with the 
 
 ## Creating a ROM Pre-Loaded with the Finch Image
 
+One big question I had while coding this project was how the EEPROM Ben used in his VGA circuit to render the Finch image would translate in Verilog. I saw a bunch of examples showing the concepts of inferred RAM and pre-loading that with binary data, which I thought would be the way to go. However, it turns out that Vivado has a library of wizard-based IP component generators that handles that for you. The one caveat is that the memory loading facility expects a comma separated text file containing the binary data. Go figure. Pretty sure that a binary file could be loaded outside of that, but anyway, I ended up creating a script that would generate that text file from Ben's EEPROM binary file.
+
+To create the ROM, click on "IP Catalog" in the Flow Navigator pane. This will bring up the "IP Catalog" tab. In the Search field, enter "ROM". The IP Wizard you are looking for is "Block Memory Generator", as shown below. Double-click on that to launch the wizard.
+
+![ROM Step 1](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/rom_1.png?raw=true)
+
+On the wizard, enter "rom_finch" as the component name. You can change that as long as you modify the main module accordingly in the steps to come. On the "Basic" tab, select "Single Port ROM" as the memory type, as shown below. You can leave the other options as they are.
+
+![ROM Step 2](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/rom_2.png?raw=true)
+
+On the "Port A Options" tab, enter "8" as the "Port A Width", and "32768" as "Port A Depth", as shown below. These are the width and depth of the standard EEPROM used on Ben's VGA circuit. You can leave the remaining options as they are.
+
+[ROM Step 3](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/rom_3.png?raw=true)
+
+On the "Other Options" tab, check the "Load Init File" checkbox, and hit the browse button to locate and select the file "finch.coe" provided in the Data folder of the source files, as shown below. You can leave the remaining options as they are.
+
+[ROM Step 4](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/rom_4.png?raw=true)
+
+Click on the "Summary Tab" and make sure that the information matches that shown below. You can expand the IP symbol on the left to reveal ports. As you can see, the structure of the ports is very much the same as a 32K EEPROM.
+
+[ROM Step 5](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/rom_5.png?raw=true)
+
+Click on "OK". On the "Generate Output Products" window, leave all options at their default values and hit the "Generate" button.
+
+[ROM Step 6](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/rom_6.png?raw=true)
+
+If all goes well, the wizard will generate the component and it will appear in the project sources pane.
+
 ## Creating the Clock Module
 
 ## Putting it All Together
