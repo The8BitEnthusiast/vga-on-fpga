@@ -139,6 +139,36 @@ On his circuit, Ben uses 2 bit to represent each colour, and then uses a resisto
 Import the file 'scaler_5.v' into the design sources. As you see above, there is not much to it. One thing perhaps worth pointing out is the 'enable' input. For the VGA outputs, it is critical that the colour lines be disabled during the blanking intervals, otherwise I found VGA monitors have a hard time centering the image and even distorts the picture. The ROM module generates an enable pin, but that's just to control whether the data can be read or not. It does not disable the outputs. So I have implemented that on this module. I initially tried high impedance ('Z') as output when enable is low, but the VGA monitor didn't like floating outputs. So this module will ouput logic zero when disabled, which seemd to please the VGA monitor a lot better.
 
 
-## Putting it All Together: The VGA Main Module and Contraint Files
+## Putting it All Together: The VGA Main Module 
+
+The final module to be assembled brings all the other modules together. Import the file 'vga_main.v' into the project. As you can see, the code is faily straighforward, with the clock signal as input and the 14 output signals (hsync, vsync, and 12 bit-colors), which will be mapped to physical pins in the next section. You'll notice the use of the scaler module, which I had to use since the VGA module I acquired for this expects 4 bits per colour. This is where your intervention would be required if you have a standard VGA breakout board or if you FPGA dev board somes with its own VGA connector.
+
+![Main VGA Module](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/vga_main_code.png?raw=true)
+
+The elaborated design is shown below. The design is fairly faithful to Ben's high level schematic, and I liked the fact that the tool chain presented a view with expandable module sections. 
+
+![Main VGA Module Design](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/vga_main_elaborate_design.png?raw=true)
+
+It goes without saying that simulating this final piece before deploying to hardware was critical. Couple things I wanted to make sure were interval accuracy and null 'colour bits' outputs during blanking interval. The test bench I coded for this, tb_vga_main is really straightforward. To prepare for it, import the simulation file into your project, adjust the clock frequency parameters in accordance with your own FPGA dev board, and make sure you set a simulation time of 20ms in the simulation settings so that one complete frame is shown. 
+
+![Main VGA Module Sim Code](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/vga_main_sim_code.png?raw=true)
+
+Once you are good with the changes, run the simulation and verify that all timings are good!
+
+![Main VGA Module Sim](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/vga_main_sim.png?raw=true)
+
+## Deploying to the FPGA Hardware
+
+The last step is to synthesize the design into hardware specifications that will be deployed to the FPGA board. To initiate that process, hit the "Run Implementation" link in the Flow Navigator pane. Upon completion, Vivado will automatically open a visualization window, showing how the design was implemented on the hardware. This part was an absolute wonder for me! Zooming into the design will show more details.
+
+![Hardware View](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/hardware_view.png?raw=true)
+
+In order to deploy the implemented design onto the FPGA board, hit the "Generate Bitstream" link in the Flow Navigator pane. This will create the ".bit" file that will be transferred over to the FPGA board via USB. It is at the point that things become specific to your configuration. If your board is natively supported by Vivado, then you can just open the "Hardware Manager" and transfer your bitstream to the board. In my case, the "Mercury 2" board required me to use a separate programmer utility to transfer the bitstream.
+
+If you have a oscilloscope, then I strongly suggest you take the time to at least verify the voltage levels and intervals of the hsync and vsync pins before hooking the thing up to the VGA monitor. Perhaps my fear of doing any damage to the monitor was unjustified, but anyhow, I tested that thoroughly just to be sure.
+
+![Scope Trace](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/scope_trace.png?raw=true)
+
+And then... hook it up! I hope you achieve success on first try! Cheers!
 
 
