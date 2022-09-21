@@ -157,6 +157,16 @@ Once you are good with the changes, run the simulation and verify that all timin
 
 ![Main VGA Module Sim](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/vga_main_sim.png?raw=true)
 
+## Mapping Physical I/O Pins to the Code
+
+Before you can deploy the design to hardware, you need to tell the tool chain how the physical FPGA board pins map to inputs and outputs in the code. This is done with the constraints file. If your development board is natively supported by Vivado, a constraint file should already be available in the project sources pane under the "Constraints" folder. The file has a ".xdc" extension. If the board is not natively supported, then you'll need to download that file from the vendor site, as I had to do for the Mercury 2 board.
+
+Open the constraint file. As you can see below, my Mercury 2 board defines mappings for the onboard clock oscillator (50Mhz) and the general purpose I/O pins. Your constraint file should contain similar mappings. The key requirement is that the port names in the constraint file match those in the top module of the coded design.
+
+![Constraints File](https://github.com/The8BitEnthusiast/vga-on-fpga/blob/master/Graphics/constraints.png?raw=true)
+
+I strongly suggest you comment out any unused mappings in that file, otherwise, as I found out, the compiler will trigger a lot of warnings about objects being null.
+
 ## Deploying to the FPGA Hardware
 
 The last step is to synthesize the design into hardware specifications that will be deployed to the FPGA board. To initiate that process, hit the "Run Implementation" link in the Flow Navigator pane. Upon completion, Vivado will automatically open a visualization window, showing how the design was implemented on the hardware. This part was an absolute wonder for me! Zooming into the design will show more details.
